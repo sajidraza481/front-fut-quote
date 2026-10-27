@@ -1,0 +1,30 @@
+name: supabase
+
+on:
+  pull_request:
+    paths: ["supabase/**", ".mise.toml", ".github/workflows/supabase.yml"]
+  push:
+    branches: [main]
+    paths: ["supabase/**", ".mise.toml", ".github/workflows/supabase.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: supabase/setup-cli@v1.7.3
+        with:
+          version: 2.120.0 # keep in step with .mise.toml
+      # Postgres only: migrations and pgTAP need nothing else.
+      - name: Start database
+        run: supabase db start
+      - name: Apply migrations to a fresh database
+        run: supabase db reset
+      - name: pgTAP tests (RLS isolation, privileges, quote sending)
+        run: supabase test db
+      - name: Lint
+        run: supabase db lint --level warning --fail-on warning

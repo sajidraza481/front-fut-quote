@@ -1,0 +1,3 @@
+-- Local development seed. Synthetic data only: never real names, emails,
+-- phone numbers or addresses (CLAUDE.md). Intentionally empty for now;
+-- traders are created through sign-up and create_business().
