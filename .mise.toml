@@ -3,3 +3,4 @@
 node = "24.21.0"
 java = "temurin-21.0.12+101.0.LTS"
 deno = "2.9.7"
+supabase = "2.120.0"
