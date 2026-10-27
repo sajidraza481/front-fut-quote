@@ -12,6 +12,12 @@ typedef Json = Map<String, Object?>;
 
 const _packs = <String, TradePack>{'painting': PaintingPack()};
 
+final Set<String> _priceItemFields = {
+  for (final pack in _packs.values)
+    for (final spec in pack.sectionFields())
+      if (spec.type == FieldType.priceItem) spec.id,
+};
+
 void main() {
   final schema = JsonSchema.create(
     File('test/vectors/schema.json').readAsStringSync(),
@@ -142,6 +148,7 @@ Map<String, FieldValue> _fields(Json json) => {
       ]),
       final int n => WholeNumberValue(n),
       final bool b => ToggleValue(b),
+      final String s when _priceItemFields.contains(key) => PriceItemValue(s),
       final String s => ChoiceValue(s),
       _ => throw FormatException('Unsupported field value for $key: $value'),
     },

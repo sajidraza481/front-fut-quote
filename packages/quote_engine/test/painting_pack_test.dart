@@ -393,6 +393,130 @@ void main() {
       expect(tins.total, 2000); // 2 tins × 1000p per tin
     });
 
+    group('tin size chosen per room', () {
+      LineItem paintLine(QuoteTotals totals, String code) =>
+          totals.lines.singleWhere((l) => l.code == code);
+
+      test('default is the 2.5 L tin', () {
+        // 70 m² coated ÷ 12 × 1.10 ÷ 2.5 = 2.57 → 3 tins × 3000p
+        final line = paintLine(_ok(_compute(_room())), PaintingCode.wallPaint);
+        expect(
+          (line.qtyHundredths, line.packSizeHundredths, line.total),
+          (300, 250, 9000),
+        );
+      });
+
+      test('a room can use 5 L tins instead', () {
+        final totals = _ok(
+          _compute(
+            _room(
+              fields: {
+                PaintingField.wallPaintItem: const PriceItemValue(
+                  PaintingExtra.wallPaint5l,
+                ),
+              },
+            ),
+          ),
+        );
+        // 70 ÷ 12 × 1.10 ÷ 5 = 1.28 → 2 tins × 5500p, in the wall paint slot.
+        expect(totals.lines.map((l) => l.code), [
+          PaintingCode.wallPainting,
+          PaintingExtra.wallPaint5l,
+        ]);
+        final line = paintLine(totals, PaintingExtra.wallPaint5l);
+        expect(
+          (line.qtyHundredths, line.packSizeHundredths, line.total),
+          (200, 500, 11000),
+        );
+      });
+
+      test('a trader default applies, and a room can switch back', () {
+        const fiveLitre = {
+          PaintingField.wallPaintItem: PriceItemValue(
+            PaintingExtra.wallPaint5l,
+          ),
+        };
+        final byDefault = _ok(_compute(_room(), traderDefaults: fiveLitre));
+        expect(
+          byDefault.lines.map((l) => l.code),
+          contains(PaintingExtra.wallPaint5l),
+        );
+        final switchedBack = _ok(
+          _compute(
+            _room(
+              fields: {
+                PaintingField.wallPaintItem: const PriceItemValue(
+                  PaintingCode.wallPaint,
+                ),
+              },
+            ),
+            traderDefaults: fiveLitre,
+          ),
+        );
+        expect(
+          switchedBack.lines.map((l) => l.code),
+          contains(PaintingCode.wallPaint),
+        );
+      });
+
+      test('primer uses the same pack mechanism', () {
+        const primerTin = CatalogItem(
+          code: 'primer_2_5l',
+          name: 'Primer (2.5 L tin)',
+          kind: ItemKind.material,
+          unit: QuantityUnit.litre,
+          unitPrice: 2500,
+          coverageHundredths: 1000,
+          packSizeHundredths: 250,
+          wasteBasisPoints: 1000,
+        );
+        final totals = _ok(
+          _compute(
+            _room(
+              fields: {
+                PaintingField.primer: const ToggleValue(true),
+                PaintingField.primerItem: const PriceItemValue('primer_2_5l'),
+              },
+            ),
+            prices: _metric(extra: [primerTin]),
+          ),
+        );
+        // 35 m² ÷ 10 × 1.10 ÷ 2.5 = 1.54 → 2 tins × 2500p
+        final line = paintLine(totals, 'primer_2_5l');
+        expect((line.qtyHundredths, line.total), (200, 5000));
+      });
+
+      test('the chosen item must be a packed material in the same unit', () {
+        const gallons = CatalogItem(
+          code: 'paint_gal',
+          name: 'Paint (gallon)',
+          kind: ItemKind.material,
+          unit: QuantityUnit.usGallon,
+          unitPrice: 4200,
+          coverageHundredths: 35000,
+        );
+        final errors = _errors(
+          _compute(
+            _room(
+              fields: {
+                PaintingField.wallPaintItem: const PriceItemValue('nope'),
+                PaintingField.ceilingPaintItem: const PriceItemValue(
+                  PaintingCode.wallPainting,
+                ),
+                PaintingField.primerItem: const PriceItemValue('paint_gal'),
+              },
+            ),
+            prices: _metric(extra: [gallons]),
+          ),
+        );
+        expect(errors, [
+          const InputError('sections[0].wallPaintItem', 'unknownItem'),
+          const InputError('sections[0].ceilingPaintItem', 'unitMismatch'),
+          const InputError('sections[0].primerItem', 'unitMismatch'),
+        ]);
+      });
+    });
+
     test('prep and primer use surfaceArea, never multiplied by coats', () {
       final totals = _ok(
         _compute(
@@ -543,6 +667,13 @@ void main() {
           PaintingField.includeCeiling: const ToggleValue(true),
           PaintingField.primer: const ToggleValue(false),
           PaintingField.surfaceCondition: const ChoiceValue('good'),
+          PaintingField.wallPaintItem: const PriceItemValue(
+            PaintingCode.wallPaint,
+          ),
+          PaintingField.ceilingPaintItem: const PriceItemValue(
+            PaintingCode.ceilingPaint,
+          ),
+          PaintingField.primerItem: const PriceItemValue(PaintingCode.primer),
         }),
         UnitSystem.metric,
       );

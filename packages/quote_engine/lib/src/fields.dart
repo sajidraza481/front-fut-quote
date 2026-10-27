@@ -17,6 +17,11 @@ enum FieldType {
 
   /// A list of [Opening]s.
   openings,
+
+  /// A price-list code: which item supplies a line, e.g. 5 L instead of
+  /// 2.5 L tins. Must be a packed material with the same unit as the pack's
+  /// default item ([FieldSpec.defaultValue]).
+  priceItem,
 }
 
 /// Declares one input of a TradePack section, with its pack default and
@@ -142,6 +147,19 @@ enum OpeningKind {
   other,
 }
 
+/// A price-list code chosen for a line.
+@immutable
+final class PriceItemValue extends FieldValue {
+  /// Wraps [code].
+  const new(this.code);
+
+  /// Price-list code.
+  final String code;
+
+  @override
+  FieldType get type => FieldType.priceItem;
+}
+
 /// A door, window or other area not painted; [count] identical ones.
 @immutable
 final class Opening {
@@ -265,4 +283,7 @@ final class SectionFields {
 
   /// Openings field [id].
   List<Opening> openings(String id) => (values[id]! as OpeningsValue).value;
+
+  /// Price-item field [id].
+  String priceItem(String id) => (values[id]! as PriceItemValue).code;
 }

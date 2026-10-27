@@ -336,6 +336,18 @@
         },
         "surfaceCondition": {
           "type": "string"
+        },
+        "wallPaintItem": {
+          "type": "string",
+          "description": "price-list code of the item supplying this line"
+        },
+        "ceilingPaintItem": {
+          "type": "string",
+          "description": "price-list code of the item supplying this line"
+        },
+        "primerItem": {
+          "type": "string",
+          "description": "price-list code of the item supplying this line"
         }
       }
     }

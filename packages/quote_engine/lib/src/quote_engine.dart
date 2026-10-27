@@ -110,7 +110,12 @@ final class QuoteEngine {
           (e) => InputError('sections[$i].${e.field}', e.code, e.detail),
         ),
       );
-      final resolved = _resolveFields(specs, section.input, traderDefaults);
+      final resolved = _resolveFields(
+        specs,
+        section.input,
+        traderDefaults,
+        prices,
+      );
       if (resolved.errors.isNotEmpty) {
         report(resolved.errors);
         continue;
@@ -159,6 +164,7 @@ final class QuoteEngine {
     List<FieldSpec> specs,
     SectionInput input,
     Map<String, FieldValue> traderDefaults,
+    PriceList prices,
   ) {
     final errors = <InputError>[];
     final values = <String, FieldValue>{};
@@ -173,7 +179,7 @@ final class QuoteEngine {
         errors.add(InputError(spec.id, 'required'));
         continue;
       }
-      final problem = _check(spec, value);
+      final problem = _check(spec, value, prices);
       if (problem != null) {
         errors.add(InputError(spec.id, problem));
         continue;
@@ -183,7 +189,7 @@ final class QuoteEngine {
     return (values: values, errors: errors);
   }
 
-  String? _check(FieldSpec spec, FieldValue value) {
+  String? _check(FieldSpec spec, FieldValue value, PriceList prices) {
     if (value.type != spec.type) return 'wrongType';
     bool inRange(int v) =>
         (spec.min == null || v >= spec.min!) &&
@@ -202,8 +208,27 @@ final class QuoteEngine {
                 o.height.tenthsOfMillimetre == 0,
           ) =>
         'outOfRange',
+      PriceItemValue(:final code) when prices.items[code] == null =>
+        'unknownItem',
+      PriceItemValue(:final code) when !_canReplace(spec, code, prices) =>
+        'unitMismatch',
       _ => null,
     };
+  }
+
+  /// A chosen item must be a packed material sold in the same unit as the
+  /// pack's standard item for that line (litres for litres). The standard
+  /// item itself is checked by [TradePack.validatePriceList].
+  bool _canReplace(FieldSpec spec, String code, PriceList prices) {
+    final standardCode = switch (spec.defaultValue) {
+      PriceItemValue(:final code) => code,
+      _ => null,
+    };
+    if (code == standardCode) return true;
+    final item = prices.items[code]!;
+    return item.kind == ItemKind.material &&
+        item.coverageHundredths != null &&
+        item.unit == prices.items[standardCode]?.unit;
   }
 
   List<InputError> _validateExtras(
