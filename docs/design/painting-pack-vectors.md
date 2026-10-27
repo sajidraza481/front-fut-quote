@@ -20,6 +20,9 @@ One section = one room. Each field has a pack default; a trader can set their ow
 | `includeCeiling` | yes/no | — | no | | |
 | `primer` | yes/no | — | no | | One primer coat on the surface area |
 | `surfaceCondition` | choice | — | `good` | `good` / `fair` / `poor` | Selects the prep rate (not a multiplier) |
+| `wallPaintItem` | price item | — | `wall_paint` | packed material, same unit | Which tin supplies wall paint (e.g. `wall_paint_5l`) |
+| `ceilingPaintItem` | price item | — | `ceiling_paint` | packed material, same unit | Which tin supplies ceiling paint |
+| `primerItem` | price item | — | `primer` | packed material, same unit | Which tin supplies primer |
 | `extras` | list of extras (§4) | — | empty | | Trader-chosen extra lines |
 
 Cutting-in and corners are included in the wall rate; they have no field.
@@ -58,6 +61,8 @@ Lines appear in this order everywhere (engine, app, PDF): **labour before its ma
 | Primer | packs for surfaceArea (if `primer`) | material | 1000p / L, 10 m²/L | 3500¢ / gal, 300 ft²/gal |
 
 All default rates are placeholders; every trader edits them in their price list. Each vector embeds its own full price list, so changing a default never changes a vector.
+
+**Tin size per room.** Each consumable line has a default item with its own pack size. A trader default or the room can choose another packed material in the same unit (e.g. 5 L instead of 2.5 L tins); the line then uses that item's price, pack size, coverage and waste, in the same position. There is no cheapest-mix of tin sizes.
 
 Rules
 
@@ -100,7 +105,7 @@ In the metric (UK) default catalog. The imperial catalog gets extras at US launc
 | `stain_block` | Stain block / mould treatment | m² | entered | 800p |
 | `high_access` | High access (tower/scaffold) | each | flat | none — entered per quote |
 | `protection` | Protection and furniture moving | each (room) | flat | 2500p |
-| `wall_paint_5l` | Wall paint (5 L tin) | 5 L tin | count | 5500p (placeholder), 12 m²/L, 10% waste |
+| `wall_paint_5l` | Wall paint (5 L tin) | 5 L tin | chosen per room via `wallPaintItem`, or counted as an extra | 5500p (placeholder), 12 m²/L, 10% waste |
 
 V9 and V10 use test-only extras to exercise the mechanism.
 
@@ -283,6 +288,7 @@ Room 4.00 × 3.00 × 2.50 m, door 0.90 × 2.10 m, 2 × window 1.20 × 1.00 m. De
 
 ## 6. Covered by unit tests, not vectors
 
+- Tin size per room: 5 L tins for the V2 room give ⌈70 ÷ 12 × 1.10 ÷ 5 = 1.28⌉ = 2 tins × 5500p = 11 000p (vs 3 × 2.5 L = 9 000p); trader default and switching back; primer tins; invalid choices rejected.
 - Pack rounding: waste is applied before rounding up (4.5 L + 10% = 4.95 L → 2 tins; 5.0 L + 10% → 3 tins).
 - Per-quote price overrides: used without markup, flagged; `priceRequired` for high access without a price.
 - Half-up at exactly .5 at line level (also exercised by V4, V5, V8, V9, V10) and on tax.

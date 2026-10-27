@@ -31,6 +31,15 @@ abstract final class PaintingField {
 
   /// good / fair / poor; selects the prep rate.
   static const surfaceCondition = 'surfaceCondition';
+
+  /// Price item supplying wall paint (e.g. 5 L instead of 2.5 L tins).
+  static const wallPaintItem = 'wallPaintItem';
+
+  /// Price item supplying ceiling paint.
+  static const ceilingPaintItem = 'ceilingPaintItem';
+
+  /// Price item supplying primer.
+  static const primerItem = 'primerItem';
 }
 
 /// Measured quantity ids (spec §2).
@@ -215,6 +224,23 @@ final class PaintingPack implements TradePack {
       type: FieldType.choice,
       defaultValue: ChoiceValue('good'),
       choices: _conditions,
+    ),
+    // Which tin each consumable line uses. Defaults to the pack's standard
+    // item; a trader default or the room can pick another pack size.
+    FieldSpec(
+      id: PaintingField.wallPaintItem,
+      type: FieldType.priceItem,
+      defaultValue: PriceItemValue(PaintingCode.wallPaint),
+    ),
+    FieldSpec(
+      id: PaintingField.ceilingPaintItem,
+      type: FieldType.priceItem,
+      defaultValue: PriceItemValue(PaintingCode.ceilingPaint),
+    ),
+    FieldSpec(
+      id: PaintingField.primerItem,
+      type: FieldType.priceItem,
+      defaultValue: PriceItemValue(PaintingCode.primer),
     ),
   ];
 
@@ -554,6 +580,13 @@ final class PaintingPack implements TradePack {
         PaintingCode.primerApplication: primer,
         PaintingCode.primer: primer,
       },
+      itemCodes: {
+        PaintingCode.wallPaint: fields.priceItem(PaintingField.wallPaintItem),
+        PaintingCode.ceilingPaint: fields.priceItem(
+          PaintingField.ceilingPaintItem,
+        ),
+        PaintingCode.primer: fields.priceItem(PaintingField.primerItem),
+      },
     );
   }
 
@@ -561,13 +594,14 @@ final class PaintingPack implements TradePack {
   List<LineItem> price(QuantitySet quantities, PriceList prices) => [
     for (final code in PaintingCode.all)
       if (quantities.lines[code] case final qty? when qty > 0)
-        LineItem.price(
-          prices.items[code]!,
-          qtyHundredths: PaintingCode.consumables.contains(code)
-              ? _wholePacks(qty, prices.items[code]!) * 100
-              : qty,
-          markupBasisPoints: prices.markupBasisPoints,
-        ),
+        if (prices.items[quantities.itemCodes[code] ?? code]! case final item)
+          LineItem.price(
+            item,
+            qtyHundredths: PaintingCode.consumables.contains(code)
+                ? _wholePacks(qty, item) * 100
+                : qty,
+            markupBasisPoints: prices.markupBasisPoints,
+          ),
   ];
 
   /// Packs to buy: ⌈area ÷ coverage × (1 + waste) ÷ pack size⌉, computed

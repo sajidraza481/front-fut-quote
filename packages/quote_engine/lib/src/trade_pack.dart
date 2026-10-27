@@ -50,14 +50,23 @@ final class Quantity {
 @immutable
 final class QuantitySet {
   /// Creates a set.
-  const new({required this.measured, required this.lines});
+  const new({
+    required this.measured,
+    required this.lines,
+    this.itemCodes = const {},
+  });
 
   /// Named measured quantities (spec §2), e.g. `netWallArea`.
   final Map<String, Quantity> measured;
 
-  /// Pack-internal quantity per price-list code, in hundredths. For items
-  /// with coverage this is the area to cover, not the units to buy.
+  /// Pack-internal quantity per line, keyed by the pack's price-list code, in
+  /// hundredths. For items with coverage this is the area to cover, not the
+  /// units to buy.
   final Map<String, int> lines;
+
+  /// Price-list code that supplies a line in [lines] when the room chose a
+  /// different item (e.g. `wall_paint` → `wall_paint_5l`). Missing = itself.
+  final Map<String, String> itemCodes;
 }
 
 /// A trade's fields, quantity rules and pricing (BRIEF §7). The PDF template
