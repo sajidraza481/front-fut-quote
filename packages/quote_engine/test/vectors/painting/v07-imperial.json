@@ -1,0 +1,137 @@
+{
+  "id": "v07-imperial",
+  "description": "Imperial units, USD, US gallons, 8% sales tax",
+  "pack": "painting",
+  "priceList": {
+    "unitSystem": "imperial",
+    "markupBasisPoints": 0,
+    "items": [
+      {
+        "code": "wall_painting",
+        "name": "Wall painting",
+        "kind": "labour",
+        "unit": "squareFoot",
+        "unitPrice": 45
+      },
+      {
+        "code": "wall_paint",
+        "name": "Wall paint",
+        "kind": "material",
+        "unit": "usGallon",
+        "unitPrice": 4200,
+        "coverageHundredths": 35000
+      },
+      {
+        "code": "ceiling_painting",
+        "name": "Ceiling painting",
+        "kind": "labour",
+        "unit": "squareFoot",
+        "unitPrice": 55
+      },
+      {
+        "code": "ceiling_paint",
+        "name": "Ceiling paint",
+        "kind": "material",
+        "unit": "usGallon",
+        "unitPrice": 3800,
+        "coverageHundredths": 35000
+      },
+      {
+        "code": "prep_good",
+        "name": "Preparation (good)",
+        "kind": "labour",
+        "unit": "squareFoot",
+        "unitPrice": 5
+      },
+      {
+        "code": "prep_fair",
+        "name": "Preparation (fair)",
+        "kind": "labour",
+        "unit": "squareFoot",
+        "unitPrice": 14
+      },
+      {
+        "code": "prep_poor",
+        "name": "Preparation (poor)",
+        "kind": "labour",
+        "unit": "squareFoot",
+        "unitPrice": 28
+      },
+      {
+        "code": "primer_application",
+        "name": "Primer application",
+        "kind": "labour",
+        "unit": "squareFoot",
+        "unitPrice": 30
+      },
+      {
+        "code": "primer",
+        "name": "Primer",
+        "kind": "material",
+        "unit": "usGallon",
+        "unitPrice": 3500,
+        "coverageHundredths": 30000
+      }
+    ]
+  },
+  "taxBasisPoints": 800,
+  "sections": [
+    {
+      "name": "Room",
+      "fields": {
+        "length": {
+          "ft": 12
+        },
+        "width": {
+          "ft": 10
+        },
+        "height": {
+          "ft": 8
+        },
+        "openings": [
+          {
+            "width": {
+              "ft": 3
+            },
+            "height": {
+              "ft": 7
+            }
+          },
+          {
+            "width": {
+              "ft": 4
+            },
+            "height": {
+              "ft": 3
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "expected": {
+    "lines": [
+      {
+        "code": "wall_painting",
+        "qtyHundredths": 63800,
+        "unitPrice": 45,
+        "total": 28710
+      },
+      {
+        "code": "wall_paint",
+        "qtyHundredths": 200,
+        "unitPrice": 4200,
+        "total": 8400
+      },
+      {
+        "code": "prep_good",
+        "qtyHundredths": 31900,
+        "unitPrice": 5,
+        "total": 1595
+      }
+    ],
+    "subtotal": 38705,
+    "tax": 3096,
+    "total": 41801
+  }
+}

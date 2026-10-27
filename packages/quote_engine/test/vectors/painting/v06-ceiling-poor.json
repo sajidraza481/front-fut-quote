@@ -1,0 +1,143 @@
+{
+  "id": "v06-ceiling-poor",
+  "description": "Ceiling included with area rounding, poor surface",
+  "pack": "painting",
+  "priceList": {
+    "unitSystem": "metric",
+    "markupBasisPoints": 0,
+    "items": [
+      {
+        "code": "wall_painting",
+        "name": "Wall painting",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 450
+      },
+      {
+        "code": "wall_paint",
+        "name": "Wall paint",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 1200,
+        "coverageHundredths": 1200
+      },
+      {
+        "code": "ceiling_painting",
+        "name": "Ceiling painting",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 550
+      },
+      {
+        "code": "ceiling_paint",
+        "name": "Ceiling paint",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 900,
+        "coverageHundredths": 1200
+      },
+      {
+        "code": "prep_good",
+        "name": "Preparation (good)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 50
+      },
+      {
+        "code": "prep_fair",
+        "name": "Preparation (fair)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 150
+      },
+      {
+        "code": "prep_poor",
+        "name": "Preparation (poor)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 300
+      },
+      {
+        "code": "primer_application",
+        "name": "Primer application",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 300
+      },
+      {
+        "code": "primer",
+        "name": "Primer",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 1000,
+        "coverageHundredths": 1000
+      }
+    ]
+  },
+  "taxBasisPoints": 2000,
+  "sections": [
+    {
+      "name": "Room",
+      "fields": {
+        "length": {
+          "m": "3.65"
+        },
+        "width": {
+          "m": "2.75"
+        },
+        "height": {
+          "m": "2.40"
+        },
+        "openings": [
+          {
+            "width": {
+              "m": "0.9"
+            },
+            "height": {
+              "m": "2.1"
+            }
+          }
+        ],
+        "includeCeiling": true,
+        "surfaceCondition": "poor"
+      }
+    }
+  ],
+  "expected": {
+    "lines": [
+      {
+        "code": "wall_painting",
+        "qtyHundredths": 5766,
+        "unitPrice": 450,
+        "total": 25947
+      },
+      {
+        "code": "wall_paint",
+        "qtyHundredths": 500,
+        "unitPrice": 1200,
+        "total": 6000
+      },
+      {
+        "code": "ceiling_painting",
+        "qtyHundredths": 2008,
+        "unitPrice": 550,
+        "total": 11044
+      },
+      {
+        "code": "ceiling_paint",
+        "qtyHundredths": 200,
+        "unitPrice": 900,
+        "total": 1800
+      },
+      {
+        "code": "prep_poor",
+        "qtyHundredths": 3887,
+        "unitPrice": 300,
+        "total": 11661
+      }
+    ],
+    "subtotal": 56452,
+    "tax": 11290,
+    "total": 67742
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "id": "v03-openings-exceed-wall",
+  "description": "Openings larger than the wall clamp net wall to 0; ceiling still priced",
+  "pack": "painting",
+  "priceList": {
+    "unitSystem": "metric",
+    "markupBasisPoints": 0,
+    "items": [
+      {
+        "code": "wall_painting",
+        "name": "Wall painting",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 450
+      },
+      {
+        "code": "wall_paint",
+        "name": "Wall paint",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 1200,
+        "coverageHundredths": 1200
+      },
+      {
+        "code": "ceiling_painting",
+        "name": "Ceiling painting",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 550
+      },
+      {
+        "code": "ceiling_paint",
+        "name": "Ceiling paint",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 900,
+        "coverageHundredths": 1200
+      },
+      {
+        "code": "prep_good",
+        "name": "Preparation (good)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 50
+      },
+      {
+        "code": "prep_fair",
+        "name": "Preparation (fair)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 150
+      },
+      {
+        "code": "prep_poor",
+        "name": "Preparation (poor)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 300
+      },
+      {
+        "code": "primer_application",
+        "name": "Primer application",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 300
+      },
+      {
+        "code": "primer",
+        "name": "Primer",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 1000,
+        "coverageHundredths": 1000
+      }
+    ]
+  },
+  "taxBasisPoints": 2000,
+  "sections": [
+    {
+      "name": "Room",
+      "fields": {
+        "length": {
+          "m": "2.00"
+        },
+        "width": {
+          "m": "1.00"
+        },
+        "height": {
+          "m": "1.00"
+        },
+        "openings": [
+          {
+            "width": {
+              "m": "2.00"
+            },
+            "height": {
+              "m": "2.00"
+            },
+            "count": 2
+          }
+        ],
+        "includeCeiling": true
+      }
+    }
+  ],
+  "expected": {
+    "lines": [
+      {
+        "code": "ceiling_painting",
+        "qtyHundredths": 400,
+        "unitPrice": 550,
+        "total": 2200
+      },
+      {
+        "code": "ceiling_paint",
+        "qtyHundredths": 100,
+        "unitPrice": 900,
+        "total": 900
+      },
+      {
+        "code": "prep_good",
+        "qtyHundredths": 200,
+        "unitPrice": 50,
+        "total": 100
+      }
+    ],
+    "subtotal": 3200,
+    "tax": 640,
+    "total": 3840
+  }
+}

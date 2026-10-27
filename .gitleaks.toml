@@ -1,0 +1,7 @@
+# Default gitleaks rules plus repo-specific allowlist.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Lockfiles hold integrity hashes, not secrets"
+paths = ['''pubspec\.lock$''', '''package-lock\.json$''']

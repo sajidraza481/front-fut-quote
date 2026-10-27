@@ -1,0 +1,11 @@
+version: 2
+updates:
+  - package-ecosystem: pub
+    directory: "/"  # pub workspace: one lockfile at the root
+    schedule: { interval: weekly }
+    cooldown: { default-days: 14 }
+    open-pull-requests-limit: 5
+  - package-ecosystem: github-actions
+    directory: "/"
+    schedule: { interval: weekly }
+    cooldown: { default-days: 14 }

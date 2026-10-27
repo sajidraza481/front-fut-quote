@@ -1,0 +1,138 @@
+{
+  "id": "v08-three-coats",
+  "description": "Coats overridden to 3",
+  "pack": "painting",
+  "priceList": {
+    "unitSystem": "metric",
+    "markupBasisPoints": 0,
+    "items": [
+      {
+        "code": "wall_painting",
+        "name": "Wall painting",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 450
+      },
+      {
+        "code": "wall_paint",
+        "name": "Wall paint",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 1200,
+        "coverageHundredths": 1200
+      },
+      {
+        "code": "ceiling_painting",
+        "name": "Ceiling painting",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 550
+      },
+      {
+        "code": "ceiling_paint",
+        "name": "Ceiling paint",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 900,
+        "coverageHundredths": 1200
+      },
+      {
+        "code": "prep_good",
+        "name": "Preparation (good)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 50
+      },
+      {
+        "code": "prep_fair",
+        "name": "Preparation (fair)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 150
+      },
+      {
+        "code": "prep_poor",
+        "name": "Preparation (poor)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 300
+      },
+      {
+        "code": "primer_application",
+        "name": "Primer application",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 300
+      },
+      {
+        "code": "primer",
+        "name": "Primer",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 1000,
+        "coverageHundredths": 1000
+      }
+    ]
+  },
+  "taxBasisPoints": 2000,
+  "sections": [
+    {
+      "name": "Room",
+      "fields": {
+        "length": {
+          "m": "4.00"
+        },
+        "width": {
+          "m": "3.00"
+        },
+        "height": {
+          "m": "2.50"
+        },
+        "openings": [
+          {
+            "width": {
+              "m": "0.9"
+            },
+            "height": {
+              "m": "2.1"
+            }
+          },
+          {
+            "width": {
+              "m": "1.2"
+            },
+            "height": {
+              "m": "1.0"
+            }
+          }
+        ],
+        "coats": 3
+      }
+    }
+  ],
+  "expected": {
+    "lines": [
+      {
+        "code": "wall_painting",
+        "qtyHundredths": 9573,
+        "unitPrice": 450,
+        "total": 43079
+      },
+      {
+        "code": "wall_paint",
+        "qtyHundredths": 800,
+        "unitPrice": 1200,
+        "total": 9600
+      },
+      {
+        "code": "prep_good",
+        "qtyHundredths": 3191,
+        "unitPrice": 50,
+        "total": 1596
+      }
+    ],
+    "subtotal": 54275,
+    "tax": 10855,
+    "total": 65130
+  }
+}

@@ -1,0 +1,173 @@
+{
+  "id": "v10-extras-count-flat",
+  "description": "Extras by count and flat",
+  "pack": "painting",
+  "priceList": {
+    "unitSystem": "metric",
+    "markupBasisPoints": 0,
+    "items": [
+      {
+        "code": "wall_painting",
+        "name": "Wall painting",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 450
+      },
+      {
+        "code": "wall_paint",
+        "name": "Wall paint",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 1200,
+        "coverageHundredths": 1200
+      },
+      {
+        "code": "ceiling_painting",
+        "name": "Ceiling painting",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 550
+      },
+      {
+        "code": "ceiling_paint",
+        "name": "Ceiling paint",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 900,
+        "coverageHundredths": 1200
+      },
+      {
+        "code": "prep_good",
+        "name": "Preparation (good)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 50
+      },
+      {
+        "code": "prep_fair",
+        "name": "Preparation (fair)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 150
+      },
+      {
+        "code": "prep_poor",
+        "name": "Preparation (poor)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 300
+      },
+      {
+        "code": "primer_application",
+        "name": "Primer application",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 300
+      },
+      {
+        "code": "primer",
+        "name": "Primer",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 1000,
+        "coverageHundredths": 1000
+      },
+      {
+        "code": "radiator_refit",
+        "name": "Radiator off and refit",
+        "kind": "labour",
+        "unit": "each",
+        "unitPrice": 1500
+      },
+      {
+        "code": "furniture_moving",
+        "name": "Furniture moving",
+        "kind": "flat",
+        "unit": "each",
+        "unitPrice": 4000
+      }
+    ]
+  },
+  "taxBasisPoints": 2000,
+  "sections": [
+    {
+      "name": "Room",
+      "fields": {
+        "length": {
+          "m": "4.00"
+        },
+        "width": {
+          "m": "3.00"
+        },
+        "height": {
+          "m": "2.50"
+        },
+        "openings": [
+          {
+            "width": {
+              "m": "0.9"
+            },
+            "height": {
+              "m": "2.1"
+            }
+          },
+          {
+            "width": {
+              "m": "1.2"
+            },
+            "height": {
+              "m": "1.0"
+            }
+          }
+        ]
+      },
+      "extras": [
+        {
+          "item": "radiator_refit",
+          "count": 2
+        },
+        {
+          "item": "furniture_moving",
+          "flat": true
+        }
+      ]
+    }
+  ],
+  "expected": {
+    "lines": [
+      {
+        "code": "wall_painting",
+        "qtyHundredths": 6382,
+        "unitPrice": 450,
+        "total": 28719
+      },
+      {
+        "code": "wall_paint",
+        "qtyHundredths": 600,
+        "unitPrice": 1200,
+        "total": 7200
+      },
+      {
+        "code": "prep_good",
+        "qtyHundredths": 3191,
+        "unitPrice": 50,
+        "total": 1596
+      },
+      {
+        "code": "radiator_refit",
+        "qtyHundredths": 200,
+        "unitPrice": 1500,
+        "total": 3000
+      },
+      {
+        "code": "furniture_moving",
+        "qtyHundredths": 100,
+        "unitPrice": 4000,
+        "total": 4000
+      }
+    ],
+    "subtotal": 44515,
+    "tax": 8903,
+    "total": 53418
+  }
+}
