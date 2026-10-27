@@ -1,0 +1,243 @@
+{
+  "id": "v11-launch-extras",
+  "description": "Default UK catalog with three launch extras: skirting typed in, window frames from the window count, protection flat",
+  "pack": "painting",
+  "priceList": {
+    "unitSystem": "metric",
+    "markupBasisPoints": 0,
+    "items": [
+      {
+        "code": "wall_painting",
+        "name": "Wall painting",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 450
+      },
+      {
+        "code": "wall_paint",
+        "name": "Wall paint (2.5 L tin)",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 3000,
+        "coverageHundredths": 1200,
+        "packSizeHundredths": 250,
+        "wasteBasisPoints": 1000
+      },
+      {
+        "code": "ceiling_painting",
+        "name": "Ceiling painting",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 550
+      },
+      {
+        "code": "ceiling_paint",
+        "name": "Ceiling paint (2.5 L tin)",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 3000,
+        "coverageHundredths": 1200,
+        "packSizeHundredths": 250,
+        "wasteBasisPoints": 1000
+      },
+      {
+        "code": "prep_good",
+        "name": "Preparation (good)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 0
+      },
+      {
+        "code": "prep_fair",
+        "name": "Preparation (fair)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 150
+      },
+      {
+        "code": "prep_poor",
+        "name": "Preparation (poor)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 300
+      },
+      {
+        "code": "primer_application",
+        "name": "Primer application",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 300
+      },
+      {
+        "code": "primer",
+        "name": "Primer",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 1000,
+        "coverageHundredths": 1000
+      },
+      {
+        "code": "wall_paint_5l",
+        "name": "Wall paint (5 L tin)",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 5500,
+        "coverageHundredths": 1200,
+        "packSizeHundredths": 500,
+        "wasteBasisPoints": 1000
+      },
+      {
+        "code": "skirting_boards",
+        "name": "Skirting boards",
+        "kind": "labour",
+        "unit": "metre",
+        "unitPrice": 400
+      },
+      {
+        "code": "doors",
+        "name": "Doors (both sides)",
+        "kind": "labour",
+        "unit": "each",
+        "unitPrice": 4500
+      },
+      {
+        "code": "door_frames",
+        "name": "Door frames / architraves",
+        "kind": "labour",
+        "unit": "each",
+        "unitPrice": 2000
+      },
+      {
+        "code": "window_frames",
+        "name": "Window frames and sills",
+        "kind": "labour",
+        "unit": "each",
+        "unitPrice": 2500
+      },
+      {
+        "code": "radiators",
+        "name": "Radiators",
+        "kind": "labour",
+        "unit": "each",
+        "unitPrice": 2500
+      },
+      {
+        "code": "wallpaper_removal",
+        "name": "Wallpaper removal",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 500
+      },
+      {
+        "code": "stain_block",
+        "name": "Stain block / mould treatment",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 800
+      },
+      {
+        "code": "high_access",
+        "name": "High access (tower/scaffold)",
+        "kind": "flat",
+        "unit": "each",
+        "unitPrice": null
+      },
+      {
+        "code": "protection",
+        "name": "Protection and furniture moving",
+        "kind": "flat",
+        "unit": "each",
+        "unitPrice": 2500
+      }
+    ]
+  },
+  "taxBasisPoints": 2000,
+  "sections": [
+    {
+      "name": "Room",
+      "fields": {
+        "length": {
+          "m": "4.00"
+        },
+        "width": {
+          "m": "3.00"
+        },
+        "height": {
+          "m": "2.50"
+        },
+        "openings": [
+          {
+            "width": {
+              "m": "0.90"
+            },
+            "height": {
+              "m": "2.10"
+            },
+            "kind": "door"
+          },
+          {
+            "width": {
+              "m": "1.20"
+            },
+            "height": {
+              "m": "1.00"
+            },
+            "count": 2,
+            "kind": "window"
+          }
+        ]
+      },
+      "extras": [
+        {
+          "item": "skirting_boards",
+          "entered": 1310
+        },
+        {
+          "item": "window_frames",
+          "quantity": "windowCount"
+        },
+        {
+          "item": "protection",
+          "flat": true
+        }
+      ]
+    }
+  ],
+  "expected": {
+    "lines": [
+      {
+        "code": "wall_painting",
+        "qtyHundredths": 6142,
+        "unitPrice": 450,
+        "total": 27639
+      },
+      {
+        "code": "wall_paint",
+        "qtyHundredths": 300,
+        "unitPrice": 3000,
+        "total": 9000
+      },
+      {
+        "code": "skirting_boards",
+        "qtyHundredths": 1310,
+        "unitPrice": 400,
+        "total": 5240
+      },
+      {
+        "code": "window_frames",
+        "qtyHundredths": 200,
+        "unitPrice": 2500,
+        "total": 5000
+      },
+      {
+        "code": "protection",
+        "qtyHundredths": 100,
+        "unitPrice": 2500,
+        "total": 2500
+      }
+    ],
+    "subtotal": 49379,
+    "tax": 9876,
+    "total": 59255
+  }
+}

@@ -1,0 +1,343 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Quote engine golden vector",
+  "description": "Inputs and approved expected results. Expected values change only with an approved spec change (docs/design/painting-pack-vectors.md).",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "description",
+    "pack",
+    "priceList",
+    "taxBasisPoints",
+    "sections",
+    "expected"
+  ],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^v[0-9]{2}-[a-z0-9-]+$"
+    },
+    "description": {
+      "type": "string"
+    },
+    "pack": {
+      "enum": [
+        "painting"
+      ]
+    },
+    "priceList": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "unitSystem",
+        "markupBasisPoints",
+        "items"
+      ],
+      "properties": {
+        "unitSystem": {
+          "enum": [
+            "metric",
+            "imperial"
+          ]
+        },
+        "markupBasisPoints": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "code",
+              "name",
+              "kind",
+              "unit",
+              "unitPrice"
+            ],
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "name": {
+                "type": "string"
+              },
+              "kind": {
+                "enum": [
+                  "material",
+                  "labour",
+                  "flat"
+                ]
+              },
+              "unit": {
+                "enum": [
+                  "squareMetre",
+                  "squareFoot",
+                  "metre",
+                  "foot",
+                  "litre",
+                  "usGallon",
+                  "each"
+                ]
+              },
+              "unitPrice": {
+                "type": [
+                  "integer",
+                  "null"
+                ],
+                "minimum": 0,
+                "description": "null = price entered on each quote (extras only)"
+              },
+              "coverageHundredths": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "packSizeHundredths": {
+                "type": "integer",
+                "minimum": 1,
+                "description": "units per pack in hundredths; default 100"
+              },
+              "wasteBasisPoints": {
+                "type": "integer",
+                "minimum": 0,
+                "description": "default 0"
+              }
+            }
+          }
+        }
+      }
+    },
+    "taxBasisPoints": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "traderDefaults": {
+      "$ref": "#/definitions/fields"
+    },
+    "sections": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "fields"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "fields": {
+            "$ref": "#/definitions/fields"
+          },
+          "extras": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "required": [
+                "item"
+              ],
+              "properties": {
+                "item": {
+                  "type": "string"
+                },
+                "quantity": {
+                  "type": "string"
+                },
+                "count": {
+                  "type": "integer"
+                },
+                "flat": {
+                  "const": true
+                },
+                "entered": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "description": "typed quantity in hundredths of the item's unit"
+                },
+                "unitPrice": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "description": "per-quote price override"
+                }
+              },
+              "oneOf": [
+                {
+                  "required": [
+                    "quantity"
+                  ]
+                },
+                {
+                  "required": [
+                    "count"
+                  ]
+                },
+                {
+                  "required": [
+                    "flat"
+                  ]
+                },
+                {
+                  "required": [
+                    "entered"
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      }
+    },
+    "expected": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "lines",
+        "subtotal",
+        "tax",
+        "total"
+      ],
+      "properties": {
+        "lines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "code",
+              "qtyHundredths",
+              "unitPrice",
+              "total"
+            ],
+            "properties": {
+              "code": {
+                "type": "string"
+              },
+              "qtyHundredths": {
+                "type": "integer",
+                "minimum": 1
+              },
+              "unitPrice": {
+                "type": "integer",
+                "minimum": 0
+              },
+              "total": {
+                "type": "integer",
+                "minimum": 0
+              }
+            }
+          }
+        },
+        "subtotal": {
+          "type": "integer"
+        },
+        "tax": {
+          "type": "integer"
+        },
+        "total": {
+          "type": "integer"
+        }
+      }
+    }
+  },
+  "definitions": {
+    "length": {
+      "oneOf": [
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "m"
+          ],
+          "properties": {
+            "m": {
+              "type": "string",
+              "pattern": "^[0-9]+(\\.[0-9]{1,4})?$"
+            }
+          }
+        },
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "ft"
+          ],
+          "properties": {
+            "ft": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "in": {
+              "type": "integer",
+              "minimum": 0
+            },
+            "sixteenths": {
+              "type": "integer",
+              "minimum": 0
+            }
+          }
+        }
+      ]
+    },
+    "fields": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "length": {
+          "$ref": "#/definitions/length"
+        },
+        "width": {
+          "$ref": "#/definitions/length"
+        },
+        "height": {
+          "$ref": "#/definitions/length"
+        },
+        "openings": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "width",
+              "height"
+            ],
+            "properties": {
+              "width": {
+                "$ref": "#/definitions/length"
+              },
+              "height": {
+                "$ref": "#/definitions/length"
+              },
+              "count": {
+                "type": "integer"
+              },
+              "kind": {
+                "enum": [
+                  "door",
+                  "window",
+                  "other"
+                ]
+              }
+            }
+          }
+        },
+        "coats": {
+          "type": "integer"
+        },
+        "includeCeiling": {
+          "type": "boolean"
+        },
+        "primer": {
+          "type": "boolean"
+        },
+        "surfaceCondition": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

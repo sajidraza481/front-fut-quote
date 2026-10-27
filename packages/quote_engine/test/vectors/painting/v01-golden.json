@@ -1,0 +1,141 @@
+{
+  "id": "v01-golden",
+  "description": "Golden vector #1 (Sajid): 2.5 L tins with 10% waste, 0p good prep",
+  "pack": "painting",
+  "priceList": {
+    "unitSystem": "metric",
+    "markupBasisPoints": 0,
+    "items": [
+      {
+        "code": "wall_painting",
+        "name": "Labour – walls",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 600
+      },
+      {
+        "code": "wall_paint",
+        "name": "Wall paint (2.5 L tin)",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 3000,
+        "coverageHundredths": 1200,
+        "packSizeHundredths": 250,
+        "wasteBasisPoints": 1000
+      },
+      {
+        "code": "ceiling_painting",
+        "name": "Ceiling painting",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 550
+      },
+      {
+        "code": "ceiling_paint",
+        "name": "Ceiling paint (2.5 L tin)",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 3000,
+        "coverageHundredths": 1200,
+        "packSizeHundredths": 250,
+        "wasteBasisPoints": 1000
+      },
+      {
+        "code": "prep_good",
+        "name": "Preparation (good)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 0
+      },
+      {
+        "code": "prep_fair",
+        "name": "Preparation (fair)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 150
+      },
+      {
+        "code": "prep_poor",
+        "name": "Preparation (poor)",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 300
+      },
+      {
+        "code": "primer_application",
+        "name": "Primer application",
+        "kind": "labour",
+        "unit": "squareMetre",
+        "unitPrice": 300
+      },
+      {
+        "code": "primer",
+        "name": "Primer",
+        "kind": "material",
+        "unit": "litre",
+        "unitPrice": 1000,
+        "coverageHundredths": 1000
+      }
+    ]
+  },
+  "taxBasisPoints": 2000,
+  "sections": [
+    {
+      "name": "Room",
+      "fields": {
+        "length": {
+          "m": "4.0"
+        },
+        "width": {
+          "m": "3.5"
+        },
+        "height": {
+          "m": "2.5"
+        },
+        "openings": [
+          {
+            "width": {
+              "m": "0.8"
+            },
+            "height": {
+              "m": "2.0"
+            },
+            "kind": "door"
+          },
+          {
+            "width": {
+              "m": "1.2"
+            },
+            "height": {
+              "m": "1.0"
+            },
+            "kind": "window"
+          }
+        ],
+        "coats": 2,
+        "includeCeiling": false,
+        "primer": false,
+        "surfaceCondition": "good"
+      }
+    }
+  ],
+  "expected": {
+    "lines": [
+      {
+        "code": "wall_painting",
+        "qtyHundredths": 6940,
+        "unitPrice": 600,
+        "total": 41640
+      },
+      {
+        "code": "wall_paint",
+        "qtyHundredths": 300,
+        "unitPrice": 3000,
+        "total": 9000
+      }
+    ],
+    "subtotal": 50640,
+    "tax": 10128,
+    "total": 60768
+  }
+}

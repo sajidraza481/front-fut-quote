@@ -1,0 +1,30 @@
+name: mobile
+
+on:
+  pull_request:
+    paths: ["apps/mobile/**", "packages/quote_engine/**", "pubspec.yaml", "pubspec.lock", ".fvmrc", ".github/workflows/mobile.yml"]
+  push:
+    branches: [main]
+    paths: ["apps/mobile/**", "packages/quote_engine/**", "pubspec.yaml", "pubspec.lock", ".fvmrc", ".github/workflows/mobile.yml"]
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v7
+      - uses: subosito/flutter-action@v2.23.0
+        with:
+          flutter-version-file: .fvmrc
+          cache: true
+      - run: flutter pub get --enforce-lockfile
+      - name: Analyze
+        working-directory: apps/mobile
+        run: flutter analyze --fatal-infos
+      - name: Test
+        working-directory: apps/mobile
+        run: flutter test
+  # iOS/Android release builds are added in Phase 1 once flavours and signing exist.
